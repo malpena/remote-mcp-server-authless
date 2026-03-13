@@ -16,7 +16,7 @@ export class MyMCP extends McpAgent {
 		}));
 
 		this.server.tool("data", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
-			content: [{ id: "text", text: String(a) }],
+			content: [{ type: "text", text: String(a) }],
 		}));
 
 		// Calculator tool with multiple operations

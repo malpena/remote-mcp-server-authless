@@ -8,7 +8,8 @@ const CONTACT_PROPERTIES = ["firstname", "lastname", "email", "phone", "mobileph
 export const hubspotTools: ToolModule = {
 	register(server, { env }) {
 		server.tool(
-			"hubspot_get_contact_by_phone",
+			//"hubspot_get_contact_by_phone",
+			hubspot: z.string().describe("Test"),
 			{
 				phone: z.string().min(7).describe("Consumer phone number e.g. +61404263628"),
 			},

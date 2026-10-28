@@ -1,0 +1,24 @@
+const API_VERSION = "v60.0";
+
+export class SalesforceClient {
+	constructor(private env: Env) {}
+
+	private async request<T>(path: string): Promise<T> {
+		const res = await fetch(`${this.env.SALESFORCE_INSTANCE_URL}/services/data/${API_VERSION}${path}`, {
+			headers: {
+				Authorization: `Bearer ${this.env.SALESFORCE_ACCESS_TOKEN}`,
+				Accept: "application/json",
+			},
+		});
+		if (!res.ok) throw new Error(`Salesforce error ${res.status}: ${await res.text()}`);
+		return res.json() as Promise<T>;
+	}
+
+	search(sosl: string) {
+		return this.request<{ searchRecords: any[] }>(`/search/?q=${encodeURIComponent(sosl)}`);
+	}
+
+	query(soql: string) {
+		return this.request<{ records: any[] }>(`/query/?q=${encodeURIComponent(soql)}`);
+	}
+}

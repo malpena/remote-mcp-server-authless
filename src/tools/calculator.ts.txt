@@ -1,0 +1,26 @@
+import { z } from "zod";
+import type { ToolModule } from "./types";
+
+export const calculatorTools: ToolModule = {
+	register(server) {
+		server.tool("add", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
+			content: [{ type: "text", text: String(a + b) }],
+		}));
+
+		server.tool(
+			"calculate",
+			{
+				operation: z.enum(["add", "subtract", "multiply", "divide"]),
+				a: z.number(),
+				b: z.number(),
+			},
+			async ({ operation, a, b }) => {
+				if (operation === "divide" && b === 0) {
+					return { content: [{ type: "text", text: "Error: Cannot divide by zero" }] };
+				}
+				const ops = { add: a + b, subtract: a - b, multiply: a * b, divide: a / b };
+				return { content: [{ type: "text", text: String(ops[operation]) }] };
+			},
+		);
+	},
+};

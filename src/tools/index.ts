@@ -1,5 +1,5 @@
 import { calculatorTools } from "./calculator";
-import { customerTools } from "./SF_getCustomer";
+import { hubspotTools } from "./hubspotTools";
 import type { ToolModule } from "./types";
 
 // Adding a new tool file only requires one line here

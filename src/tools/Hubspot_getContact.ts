@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { SalesforceClient } from "../lib/salesforce";
-import type { HubspotContactTools } from "./types";
+import type { ContactTools } from "./types";
 
-export const customerTools: ToolModule = {
+export const hubsportContactTools: ToolModule = {
 	register(server, { env }) {
 		const sf = new SalesforceClient(env);
 

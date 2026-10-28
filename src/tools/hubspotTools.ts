@@ -2,12 +2,12 @@ import { z } from "zod";
 import { SalesforceClient } from "../lib/salesforce";
 import type { ToolModule } from "./types";
 
-export const customerTools: ToolModule = {
+export const hubspotTools: ToolModule = {
 	register(server, { env }) {
 		const sf = new SalesforceClient(env);
 
 		server.tool(
-			"SF_lookup_customer_by_phone",
+			"Hubspot_lookup_customer_by_phone",
 			{ phone: z.string().min(7).describe("e.g. +61 412 345 678") },
 			async ({ phone }) => {
 				const digits = phone.replace(/\D/g, "");

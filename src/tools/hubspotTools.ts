@@ -83,7 +83,7 @@ export const hubspotTools: ToolModule = {
 server.tool(
 	"hubspot_create_call",
 	{
-		contactId: z.string().describe("HubSpot contact ID to associate the call with"),
+		//contactId: z.string().describe("HubSpot contact ID to associate the call with"),
 		title: z.string().describe("Call title, e.g. 'Follow-up call'"),
 		notes: z.string().describe("Call notes or summary"),
 		fromNumber: z.string().describe("Phone number the call was made from"),

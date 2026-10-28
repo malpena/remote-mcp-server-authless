@@ -7,7 +7,7 @@ export const customerTools: ToolModule = {
 		const sf = new SalesforceClient(env);
 
 		server.tool(
-			"lookup_customer_by_phone",
+			"SF_lookup_customer_by_phone",
 			{ phone: z.string().min(7).describe("e.g. +61 412 345 678") },
 			async ({ phone }) => {
 				const digits = phone.replace(/\D/g, "");

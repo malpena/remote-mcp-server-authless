@@ -114,7 +114,7 @@ server.tool(
 			},
 			associations: [
 				{
-					to: { id: Number(contactId) },
+					to: { id: 101 },
 					types: [
 						{
 							associationCategory: "HUBSPOT_DEFINED",

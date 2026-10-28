@@ -9,7 +9,7 @@ export const hubspotTools: ToolModule = {
 	register(server, { env }) {
 		server.tool(
 			"hubspot_get_contact_by_phone",
-			"get contact information based on phone number",
+			"Get contact information based on phone number",
 			{
 				phone: z.string().min(7).describe("Consumer phone number e.g. +61404263628"),
 			},
@@ -83,6 +83,7 @@ export const hubspotTools: ToolModule = {
 
 server.tool(
 	"hubspot_create_call",
+	"Create a call log in Hubspot",
 	{
 		//contactId: z.string().describe("HubSpot contact ID to associate the call with"),
 		title: z.string().describe("Call title, e.g. 'Follow-up call'"),

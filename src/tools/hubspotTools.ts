@@ -77,5 +77,82 @@ export const hubspotTools: ToolModule = {
 				}
 			},
 		);
+		// Add inside the register(server, { env }) block in src/tools/Hubspot_getContact.ts,
+// after the existing hubspot_get_contact_by_phone tool.
+
+server.tool(
+	"hubspot_create_call",
+	{
+		contactId: z.string().describe("HubSpot contact ID to associate the call with"),
+		title: z.string().describe("Call title, e.g. 'Follow-up call'"),
+		notes: z.string().describe("Call notes or summary"),
+		fromNumber: z.string().describe("Phone number the call was made from"),
+	},
+	async ({ contactId, title, notes, fromNumber }) => {
+		// Current date and time in Sydney, as an ISO 8601 string with offset
+		const sydneyTimestamp = new Intl.DateTimeFormat("sv-SE", {
+			timeZone: "Australia/Sydney",
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit",
+			hour12: false,
+		})
+			.format(new Date())
+			.replace(" ", "T");
+
+		const body = {
+			properties: {
+				hs_timestamp: new Date().toISOString(),
+				hs_call_title: title,
+				hs_call_body: notes,
+				hs_call_from_number: fromNumber,
+				hubspot_owner_id: "372074272",
+				hs_call_status: "COMPLETED",
+			},
+			associations: [
+				{
+					to: { id: Number(contactId) },
+					types: [
+						{
+							associationCategory: "HUBSPOT_DEFINED",
+							associationTypeId: 194,
+						},
+					],
+				},
+			],
+		};
+
+		try {
+			const res = await fetch("https://api.hubspot.com/crm/v3/objects/calls", {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${env.HUBSPOT_ACCESS_TOKEN}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(body),
+			});
+
+			if (!res.ok) {
+				return {
+					content: [{ type: "text", text: `Error: HubSpot request failed (${res.status}): ${await res.text()}` }],
+					isError: true,
+				};
+			}
+
+			const call = (await res.json()) as { id: string };
+			return {
+				content: [{ type: "text", text: JSON.stringify({ id: call.id, status: "created" }, null, 2) }],
+			};
+		} catch (err) {
+			return {
+				content: [{ type: "text", text: `Error: ${(err as Error).message}` }],
+				isError: true,
+			};
+		}
+	},
+);
 	},
 };

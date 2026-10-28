@@ -10,7 +10,7 @@ export const hubspotTools: ToolModule = {
 		server.tool(
 			"hubspot_get_contact_by_phone",
 			{
-				phone: z.string().min(7).describe("Contact phone number, e.g. +61 412 345 678 or 0412 345 678"),
+				phone: z.string().min(7).describe("Consumer phone number e.g. +61404263628"),
 			},
 			async ({ phone }) => {
 				// Digits only, so formatting differences (spaces, dashes, +) don't matter

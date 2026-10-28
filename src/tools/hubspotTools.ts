@@ -65,6 +65,7 @@ export const hubspotTools: ToolModule = {
 						name: [c.properties.firstname, c.properties.lastname].filter(Boolean).join(" "),
 						email: c.properties.email,
 						company: c.properties.company,
+						url: `https://app.hubspot.com/contacts/${env.HUBSPOT_PORTAL_ID}/record/0-1/${c.id}`,
 					}));
 
 					return { content: [{ type: "text", text: JSON.stringify(contacts, null, 2) }] };
